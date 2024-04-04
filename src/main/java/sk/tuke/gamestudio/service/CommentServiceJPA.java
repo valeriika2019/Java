@@ -1,10 +1,11 @@
 package sk.tuke.gamestudio.service;
 
-import jakarta.transaction.Transactional;
+
 import sk.tuke.gamestudio.entity.Comment;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Transactional

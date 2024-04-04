@@ -1,12 +1,10 @@
 package sk.tuke.gamestudio.game.ui;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import sk.tuke.gamestudio.entity.Rating;
 import sk.tuke.gamestudio.entity.Score;
 import sk.tuke.gamestudio.game.core.*;
-import sk.tuke.gamestudio.service.RatingService;
-import sk.tuke.gamestudio.service.RatingServiceJDBC;
-import sk.tuke.gamestudio.service.ScoreService;
-import sk.tuke.gamestudio.service.ScoreServiceJDBC;
+import sk.tuke.gamestudio.service.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,13 +13,15 @@ import java.util.Scanner;
 public class ConsoleUI {
     private final Game game;
     private final Scanner scanner = new Scanner(System.in);
-    private final ScoreService scoreService;
-    private final RatingService ratingService;
+
+    @Autowired
+    private ScoreService scoreService;
+    @Autowired
+    private RatingService ratingService;
+
 
     public ConsoleUI(Game game) {
         this.game = game;
-        scoreService = new ScoreServiceJDBC();
-        ratingService = new RatingServiceJDBC();
     }
 
 
