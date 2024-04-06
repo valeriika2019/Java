@@ -15,6 +15,10 @@ public class Comment {
     private String comment;
     private Date commentedOn;
 
+    public Comment() {
+
+    }
+
 
     public int getIdent() {
         return ident;

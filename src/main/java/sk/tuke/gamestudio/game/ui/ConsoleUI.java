@@ -15,15 +15,16 @@ import java.util.Scanner;
 public class ConsoleUI {
     private final Game game;
     private final Scanner scanner = new Scanner(System.in);
-    private final ScoreService scoreService;
-    private final RatingService ratingService;
-    private final CommentService commentService;
+
+    @Autowired
+    private ScoreService scoreService;
+    @Autowired
+    private RatingService ratingService;
+    @Autowired
+    private CommentService commentService;
 
     public ConsoleUI(Game game) {
         this.game = game;
-        scoreService = new ScoreServiceJDBC();
-        ratingService = new RatingServiceJDBC();
-        commentService = new CommentServiceJDBC();
     }
 
 

@@ -10,7 +10,7 @@ import java.util.List;
 public class RatingServiceJDBC implements RatingService{
     public static final String URL = "jdbc:postgresql://localhost:5432/gamestudio";
     public static final String USER = "postgres";
-    public static final String PASSWORD = "postgres";
+    public static final String PASSWORD = "odmen";
     public static final String SELECT = "SELECT game, player, rating, ratedOn FROM rating WHERE game = ? AND player = ?";
     public static final String SELECT_ALL = "SELECT game, player, rating, ratedOn FROM rating WHERE game = ?";
     public static final String DELETE = "DELETE FROM rating";

@@ -3,6 +3,7 @@ package sk.tuke.gamestudio.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,7 +23,6 @@ public class Score implements Serializable {
 
     private int points;
 
-    private Date playedAt;
     private Date playedOn;
 
 
@@ -34,7 +34,6 @@ public class Score implements Serializable {
         this.game = game;
         this.player = player;
         this.points = points;
-        this.playedAt = playedAt;
         this.playedOn = playedOn;
     }
 
@@ -70,9 +69,6 @@ public class Score implements Serializable {
         this.points = points;
     }
 
-    public Date getPlayedAt() {
-        return playedAt;
-    }
 
     public Date getPlayedOn() {
         return playedOn;
@@ -82,9 +78,6 @@ public class Score implements Serializable {
         this.playedOn = playedOn;
     }
 
-    public void setPlayedAt(Date playedAt) {
-        this.playedAt = playedAt;
-    }
 
     @Override
     public String toString() {
@@ -93,7 +86,7 @@ public class Score implements Serializable {
                 ", game='" + game + '\'' +
                 ", player='" + player + '\'' +
                 ", points=" + points +
-                ", playedAt=" + playedAt +
+                ", playedOn=" + playedOn +
                 '}';
     }
 }

@@ -17,7 +17,7 @@ public class ZaverApplication {
 
     @Bean
     public CommandLineRunner runner(ConsoleUI ui) {
-        return args -> ui.play();
+        return args -> ui.runMenu();
     }
 
     @Bean
@@ -33,12 +33,14 @@ public class ZaverApplication {
     }
     @Bean
     public RatingService retingService() {
+        //return new RatingServiceJDBC();
         return new RatingServiceJPA();
         //return new RatingServiceRestClient();
     }
 
     @Bean
     public CommentService commentService() {
+        //return new CommentServiceJDBC();
         return new CommentServiceJPA();
         //return new CommentServiceRestClient();
     }
