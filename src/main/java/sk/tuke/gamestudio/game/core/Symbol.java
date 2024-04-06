@@ -1,21 +1,67 @@
 package sk.tuke.gamestudio.game.core;
 
 public enum Symbol {
-    ONE,    // Червоний колір
-    TWO,    // Зелений колір
-    THREE,  // Жовтий колір
-    FOUR,   // Синій колір
-    FIVE,   // Фіолетовий колір
-    SIX,    // Блакитний колір
-    EMPTY;   // Стандартний колір
+    ONE,
+    TWO,
+    THREE,
+    FOUR,
+    FIVE,
+    SIX,
+    EMPTY;
 
 
 
+    public static Symbol nextRank(Symbol symbol) {
+        switch(symbol) {
+            case SIX: {
+                return Symbol.EMPTY;
+            }
+            case FIVE: {
+                return Symbol.SIX;
+            }
+            case FOUR: {
+                return Symbol.FIVE;
+            }
+            case THREE: {
+                return Symbol.FOUR;
+            }
+            case TWO: {
+                return Symbol.THREE;
+            }
+            case ONE: {
+                return Symbol.TWO;
+            }
+            default: {
+                return Symbol.EMPTY;
+            }
+        }
+    }
 
-
-
-
-    // Інші методи та поля перерахування
+    public static int getSymbolScore(Symbol symbol) {
+        switch(symbol) {
+            case SIX: {
+                return 6;
+            }
+            case FIVE: {
+                return 5;
+            }
+            case FOUR: {
+                return 4;
+            }
+            case THREE: {
+                return 3;
+            }
+            case TWO: {
+                return 2;
+            }
+            case ONE: {
+                return 1;
+            }
+            default: {
+                return 0;
+            }
+        }
+    }
 
 
     public static int fromEnumToInt(Symbol symbol) {
@@ -69,3 +115,4 @@ public enum Symbol {
         }
     }
 }
+

@@ -3,6 +3,8 @@ package sk.tuke.gamestudio.game.core;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+
+
 public class Board {
     private final Cell[][] board;
     public static final int ROWS = 5;
@@ -63,12 +65,11 @@ public class Board {
             if (susedDole.getSymbols() == cell.getSymbols())
                 susede.add(susedDole);
         }
-        return susede;
+        return susede; // список сусідів
     }
 
 
-    public int checkBoard() {
-        // два цикли for для ітерації по клітинкам в дошці ( dicemerge.core.Cell[][] )
+    public int checkBoard() {  // перевіряємо дошку для того щоб обєднати клітинки
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLUMNS; j++) {
 
@@ -129,65 +130,15 @@ public class Board {
             board[c.getX()][c.getY()].setSymbols(Symbol.EMPTY);
         }
         // create a higher rank cube
-        Symbol nextRankSymbol = nextRank(symbol);
+        Symbol nextRankSymbol = Symbol.nextRank(symbol);
         board[x][y].setSymbols(nextRankSymbol);
 
-        symbolScore = getSymbolScore(symbol);
+        symbolScore = Symbol.getSymbolScore(symbol);
         return symbolScore * count;
     }
 
-    private static Symbol nextRank(Symbol symbol) {
-        switch(symbol) {
-            case SIX: {
-                return Symbol.EMPTY;
-            }
-            case FIVE: {
-                return Symbol.SIX;
-            }
-            case FOUR: {
-                return Symbol.FIVE;
-            }
-            case THREE: {
-                return Symbol.FOUR;
-            }
-            case TWO: {
-                return Symbol.THREE;
-            }
-            case ONE: {
-                return Symbol.TWO;
-            }
-            default: {
-                return Symbol.EMPTY;
-            }
-        }
-    }
 
-    // статичний допоміжний метод для отримання кількості очок в залежності від символу на кубику
-    private static int getSymbolScore(Symbol symbol) {
-        switch(symbol) {
-            case SIX: {
-                return 6;
-            }
-            case FIVE: {
-                return 5;
-            }
-            case FOUR: {
-                return 4;
-            }
-            case THREE: {
-                return 3;
-            }
-            case TWO: {
-                return 2;
-            }
-            case ONE: {
-                return 1;
-            }
-            default: {
-                return 0;
-            }
-        }
-    }
+
 
     public boolean checkTwoFreeCellsExists() {
         for (int row = 0; row < ROWS; row++) {

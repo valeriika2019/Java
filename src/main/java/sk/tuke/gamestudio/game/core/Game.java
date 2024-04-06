@@ -10,7 +10,7 @@ public class Game {
 
 
     public Game() {
-        this.player = new Player("Player1");
+        this.player = new Player("Lerka");
         this.woodDice = new WoodDice();
         this.board = new Board();
     }
@@ -20,10 +20,6 @@ public class Game {
         this.gameState = GameState.PLAYING;
     }
 
-
-    public void endGame() { // jeho inicializacia bude v checkBoard
-
-    }
 
     public void restartGame() {
         board.initializeBoard();
@@ -60,13 +56,7 @@ public class Game {
             } else throw new CellAlreadyContainSymbolException("At least one of the Cells already contains a symbol!");
         }
 
-        // якщо виконання метода дійшло сюди, це означає що стартові кубики розміщено на дошку, і тепер необхідно перевірити:
 
-        // 2) поле, чи потрібно там обєднати сусідні кубики
-        // але так як checkBoard проходить перевірку лише один раз і обєднує лише один раз
-        // нам потрібно побудувати цикл
-        // умова зупинки циклу - метод checkBoard повертає 0, це означає що немає кубиків які треба обєднувати
-        // але так як метод має відпрацювати хоча б раз, використовуєм do .. while
 
 
 
@@ -81,8 +71,6 @@ public class Game {
         } while (tmpScore != 0);
 
         player.addToScore(score);
-
-        // todo 1) чи гра не закінчена
         if(!board.hasAtLeastOneFreeCell()){
             gameState=GameState.FAILED;
             System.out.println("No space left");
@@ -118,6 +106,12 @@ public class Game {
                 startCubes[1].setY(1);
             }
         }
+    }
+    public void rotateStartCubesRight(){
+        rotateStartCubesLeft();
+        rotateStartCubesLeft();
+        rotateStartCubesLeft();
+
     }
 
     public void getRandomStartCubes() {

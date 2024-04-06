@@ -1,6 +1,7 @@
 package sk.tuke.gamestudio.game.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import sk.tuke.gamestudio.entity.Comment;
 import sk.tuke.gamestudio.entity.Rating;
 import sk.tuke.gamestudio.entity.Score;
 import sk.tuke.gamestudio.game.core.*;
@@ -8,20 +9,21 @@ import sk.tuke.gamestudio.service.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleUI {
     private final Game game;
     private final Scanner scanner = new Scanner(System.in);
-
-    @Autowired
-    private ScoreService scoreService;
-    @Autowired
-    private RatingService ratingService;
-
+    private final ScoreService scoreService;
+    private final RatingService ratingService;
+    private final CommentService commentService;
 
     public ConsoleUI(Game game) {
         this.game = game;
+        scoreService = new ScoreServiceJDBC();
+        ratingService = new RatingServiceJDBC();
+        commentService = new CommentServiceJDBC();
     }
 
 
@@ -104,8 +106,16 @@ public class ConsoleUI {
 
     private void seeRecords() {
         ArrayList<Score> top = (ArrayList<Score>) scoreService.getTopScores(game.getName());
-        System.out.println(top);
+        if(top.size() == 0){
+            System.out.println("There is no records!");
+        }
+        else{
+            System.out.println(top);
+        }
     }
+
+
+
 
 
     private void printMenuOptions() {
@@ -183,7 +193,6 @@ public class ConsoleUI {
     }
 
     private String getTextColor(int symbolNumber) {
-        // Чорний колір тексту для всіх цифр
         return Color.TEXT_BLACK;
     }
 
@@ -202,13 +211,11 @@ public class ConsoleUI {
             case 6:
                 return Color.BACKGROUND_CYAN;
             default:
-                return Color.BACKGROUND_BLACK; // За замовчуванням чорний фон
+                return Color.BACKGROUND_BLUE;
         }
     }
 
 
-
-    //todo додаємо можливість ресстарту за вводом користувача
     private void handleInput(String type) {
         switch (type) {
             case "restart" : {
@@ -225,10 +232,15 @@ public class ConsoleUI {
                     System.err.println("Invalid input.Please enter 'Y' to play again on 'N' to exit.");
                     handleInput("restart");
                 }
+                System.out.println("Do you want to leave a comment? (Y/N)");
+                String commentChoice = scanner.nextLine();
+                if (commentChoice.equals("Y")) {
+                    leaveComment();
+                }
                 break;
             }
             case "makeMove" : {
-                System.out.println("Enter coordinates to place the starting cubes (x,y) or rotateLeft to rotate cubes: ");
+                System.out.println("Enter coordinates to place the starting cubes (x,y) or rotateLeft to rotate cubes or rotateRight to rotate cubes: ");
                 String cs = scanner.nextLine();
                 if (cs.equals("menu")) {
 
@@ -239,8 +251,20 @@ public class ConsoleUI {
                         printStartCubes();
                         handleInput("makeMove");
                     }
+
                     else {
                         System.err.println("There is only 1 cube, you can't rotate it!");
+                        System.out.println("Starting cubes:");
+                        printStartCubes();
+                        handleInput("makeMove");
+                    }
+                } else if(cs.equals("rotateRight")){
+                    if(game.getStartCubes().length == 2){
+                        game.rotateStartCubesRight();
+                        printStartCubes();
+                        handleInput("makeMove");
+                    } else {
+                        System.out.println("There is only 1 cube, you can't rotate it!");
                         System.out.println("Starting cubes:");
                         printStartCubes();
                         handleInput("makeMove");
@@ -277,8 +301,23 @@ public class ConsoleUI {
                 break;
             }
         }
-
     }
+
+    private void leaveComment() {
+        try {
+            System.out.println("Enter your comment:");
+            String commentText = scanner.nextLine();
+            Comment comment = new Comment(game.getPlayer().getName(), game.getName(), commentText, new Date());
+            if (comment.getCommentedOn() == null) {
+                comment.setCommentedOn(new Date()); // Ініціалізуємо дату, якщо вона null
+            }
+            commentService.addComment(comment);
+            System.out.println("Thank you for your comment!");
+        } catch (CommentException e) {
+            System.err.println("Error while adding comment: " + e.getMessage());
+        }
+    }
+
 
 
     private void printStartCubes() {
